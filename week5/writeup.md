@@ -1,72 +1,79 @@
-# Week 5 Write-up
-Tip: To preview this markdown file
-- On Mac, press `Command (⌘) + Shift + V`
-- On Windows/Linux, press `Ctrl + Shift + V`
+# Week 5 Writeup
 
-## INSTRUCTIONS
+## Overview
 
-Fill out all of the `TODO`s in this file.
+In this assignment, I implemented two features using an AI-assisted workflow with Codex:
 
-## SUBMISSION DETAILS
+1. Pagination for list endpoints
+2. Action item filters and bulk complete functionality
 
-Name: **TODO** \
-SUNet ID: **TODO** \
-Citations: **TODO**
+## Features Implemented
 
-This assignment took me about **TODO** hours to do. 
+### 1. Pagination
 
+* Added pagination to notes and action items endpoints
+* Supported query parameters:
 
-## YOUR RESPONSES
-### Automation A: Warp Drive saved prompts, rules, MCP servers
+  * `page`
+  * `page_size`
+* Updated backend queries to return paginated results
+* Updated frontend to support page navigation (Prev/Next)
 
-a. Design of each automation, including goals, inputs/outputs, steps
-> TODO
+### 2. Action Item Filters + Bulk Complete
 
-b. Before vs. after (i.e. manual workflow vs. automated workflow)
-> TODO
+* Added filtering by:
 
-c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
-> TODO
+  * completed
+  * open
+* Added endpoint:
 
-d. (if applicable) Multi‑agent notes: roles, coordination strategy, and concurrency wins/risks/failures
-> TODO
+  * `POST /action-items/bulk-complete`
+* Implemented bulk update logic with rollback behavior
+* Updated frontend with:
 
-e. How you used the automation (what pain point it resolves or accelerates)
-> TODO
+  * filter dropdown
+  * “Complete selected” button
 
+## Testing
 
+* Added backend tests for:
 
-### Automation B: Multi‑agent workflows in Warp 
+  * pagination behavior
+  * filtering logic
+  * bulk completion
+* All tests pass:
 
-a. Design of each automation, including goals, inputs/outputs, steps
-> TODO
+```
+python -m pytest backend/tests
+```
 
-b. Before vs. after (i.e. manual workflow vs. automated workflow)
-> TODO
+## AI Workflow (Codex)
 
-c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
-> TODO
+I used Codex to:
 
-d. (if applicable) Multi‑agent notes: roles, coordination strategy, and concurrency wins/risks/failures
-> TODO
+* generate backend and frontend changes
+* suggest API design
+* implement tests
+* debug environment issues
 
-e. How you used the automation (what pain point it resolves or accelerates)
-> TODO
+I guided Codex by:
 
+* specifying features clearly
+* limiting scope to minimal changes
+* reviewing diffs before committing
 
-### (Optional) Automation C: Any Additional Automations
-a. Design of each automation, including goals, inputs/outputs, steps
-> TODO
+## Key Learnings
 
-b. Before vs. after (i.e. manual workflow vs. automated workflow)
-> TODO
+* Pagination requires careful handling of offsets and limits
+* Filtering queries in SQLAlchemy is straightforward once modeled correctly
+* Bulk operations need error handling and rollback logic
+* AI tools are effective when guided with precise instructions
 
-c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
-> TODO
+## How to Run
 
-d. (if applicable) Multi‑agent notes: roles, coordination strategy, and concurrency wins/risks/failures
-> TODO
+```
+cd week5
+python -m pytest backend/tests
+```
 
-e. How you used the automation (what pain point it resolves or accelerates)
-> TODO
-
+---
