@@ -2,172 +2,135 @@
 
 ## Overview
 
-This assignment focuses on improving developer workflows using automation tools such as Claude custom commands, guidance files, and agent-based workflows. I implemented two automations that streamline testing and feature development within the starter FastAPI application.
+This assignment focuses on improving developer workflows using Claude Code automations. I implemented two reusable command automations for the Week 4 FastAPI starter app:
 
----
+- `week4/.claude/commands/run-tests.md`
+- `week4/.claude/commands/dev-flow.md`
 
-# Automation 1: `/run-tests`
+Together they create a repeatable test and feature-development workflow for the backend and frontend.
 
-## Design Inspiration
+## Automation 1: `/run-tests`
 
-Inspired by Claude Code best practices for repeatable workflows and fast feedback loops.
+Command file: `week4/.claude/commands/run-tests.md`
 
-## Goal
+### Design Inspiration
 
-Automate running backend tests and provide useful debugging feedback.
+This command follows the Claude Code best-practices idea of turning repeated terminal workflows into focused slash commands. The goal is fast, consistent feedback after code changes.
 
-## Inputs
+### Goal
 
-* Optional test path or marker
+Run Week 4 backend tests in a repeatable way and summarize failures with a concrete next debugging step.
 
-## Steps
+### Inputs
 
-1. Run:
+`$ARGUMENTS` may be empty, a test file, or a specific pytest node.
 
-   ```
-   pytest -q backend/tests --maxfail=1 -x
-   ```
-2. If tests pass:
+Examples:
 
-   * Run coverage analysis
-3. If tests fail:
-
-   * Identify failing tests
-   * Summarize error messages
-   * Suggest possible fixes
-
-## Outputs
-
-* Summary of test results
-* Key error messages (if any)
-* Suggested next steps
-
-## How to Run
-
-Use:
-
-```
+```text
 /run-tests
+/run-tests backend/tests/test_notes.py
+/run-tests backend/tests/test_action_items.py::test_create_and_complete_action_item
 ```
 
-## Safety / Notes
+### Steps
 
-* Stops on first failure for faster feedback
-* Does not modify code
-* Safe to run repeatedly
+1. Confirm the command is being run from `week4/`.
+2. Use `backend/tests` when no argument is provided.
+3. Run targeted pytest with `--maxfail=1 -x`.
+4. If targeted tests pass, run the full backend test suite.
+5. If coverage tooling is available, run coverage for `backend/app`.
+6. Summarize commands, pass/fail status, failing assertion, likely file, and next action.
 
-## Before vs After
+### Expected Output
 
-**Before:**
+The command returns a concise test report:
 
-* Manually run pytest
-* Manually inspect errors
-* Debug without guidance
+- command run,
+- status,
+- failing test and traceback summary if any,
+- likely file to inspect,
+- next debugging step.
 
-**After:**
+### Safety Notes
 
-* One command runs tests
-* Errors summarized automatically
-* Suggested fixes improve efficiency
+The command is read-only. It does not edit files, reset state, remove databases, or install packages.
 
----
+### Before vs. After
 
-# Automation 2: `/dev-flow` (TestAgent + CodeAgent Workflow)
+Before, I manually remembered pytest commands and inspected raw tracebacks. After adding `/run-tests`, the workflow is documented in one place and produces a consistent test summary.
 
-## Design Inspiration
+## Automation 2: `/dev-flow`
 
-Based on the SubAgents concept (TestAgent + CodeAgent collaboration).
+Command file: `week4/.claude/commands/dev-flow.md`
 
-## Goal
+### Design Inspiration
 
-Automate feature development using a structured Test → Code → Verify workflow.
+This automation is based on the SubAgents pattern from the Claude Code documentation. Instead of creating separate persistent agent files, the command defines a reusable TestAgent -> CodeAgent -> Verify process inside one slash command.
 
-## Roles
+### Goal
 
-### TestAgent
+Guide small feature work through a scoped test-first workflow.
 
-* Writes or updates tests in `backend/tests/`
-* Ensures tests fail initially (test-first approach)
+### Inputs
 
-### CodeAgent
+`$ARGUMENTS` should describe one feature or bug fix.
 
-* Implements minimal code in `backend/app/`
-* Fixes logic to pass tests
+Example:
 
-## Workflow
-
-1. TestAgent creates a failing test
-2. CodeAgent implements the feature
-3. TestAgent runs tests:
-
-   ```
-   pytest -q backend/tests --maxfail=1 -x
-   ```
-4. If failing:
-
-   * Summarize issues
-   * Iterate
-5. If passing:
-
-   * Confirm success
-
-## Outputs
-
-* List of modified files
-* Test results summary
-* Remaining TODOs
-
-## How to Run
-
-Use:
-
-```
-/dev-flow <feature description>
+```text
+/dev-flow add a case-insensitive notes search endpoint
 ```
 
-## Safety / Notes
+### Workflow
 
-* Encourages minimal, reversible changes
-* Prevents large, risky modifications
-* Ensures correctness via testing
+1. Scope the requested behavior and identify likely files.
+2. TestAgent phase: add or update the smallest useful test first.
+3. CodeAgent phase: implement the minimum app change needed to pass the test.
+4. Verify phase: run `pytest -q backend/tests --maxfail=1 -x`.
+5. Final report: list behavior implemented, files changed, tests, verification result, and remaining risks.
 
-## Before vs After
+### Expected Output
 
-**Before:**
+The command produces a short implementation report with:
 
-* Write code first
-* Add tests later (or skip)
-* Debug inconsistently
+- behavior implemented,
+- changed files,
+- tests added or updated,
+- verification command and result,
+- follow-up tasks if any.
 
-**After:**
+### Safety Notes
 
-* Test-driven workflow
-* Structured iteration
-* Higher reliability and code quality
+The command explicitly limits work to the Week 4 app, avoids unrelated refactors, and warns against destructive database cleanup without approval.
 
----
+### Before vs. After
 
-# How I Used the Automations
+Before, feature work could mix implementation, tests, and cleanup without a consistent order. After adding `/dev-flow`, small features follow a predictable loop: scope, test, implement, verify, report.
 
-I used `/dev-flow` to guide feature development in the starter application. For example:
+## How I Used the Automations to Enhance the Starter Application
 
-* Defined a new feature (e.g., adding or modifying an endpoint)
-* Generated a failing test using the TestAgent approach
-* Implemented the feature incrementally using CodeAgent logic
-* Verified correctness using `/run-tests`
+I used the `/dev-flow` workflow to structure Week 4 app enhancements around tests and small changes. The command maps directly to the existing Week 4 app layout:
 
-This significantly reduced debugging time and ensured correctness at each step.
+- routers in `backend/app/routers/`
+- schemas in `backend/app/schemas.py`
+- models in `backend/app/models.py`
+- tests in `backend/tests/`
+- frontend behavior in `frontend/app.js`
 
-Additionally, `/run-tests` was used repeatedly during development to quickly identify issues and validate fixes.
+The workflow fits the implemented enhancements:
 
----
+- `GET /notes/search/` is covered by `backend/tests/test_notes.py`.
+- `PUT /action-items/{item_id}/complete` is covered by `backend/tests/test_action_items.py`.
+- extraction behavior is covered by `backend/tests/test_extract.py`.
 
-# Conclusion
+I used `/run-tests` as the verification step after these changes. The documented command runs the targeted pytest path first and then the full backend suite, which is the right feedback loop for this small FastAPI app.
 
-These automations improved developer productivity by:
+## Conclusion
 
-* Reducing repetitive manual testing
-* Enforcing a structured development workflow
-* Providing faster feedback and better debugging support
+The two command files make the Week 4 developer workflow more repeatable:
 
-The combination of reusable commands and agent-based workflows makes the development process more efficient, reliable, and scalable.
+- `/run-tests` standardizes verification.
+- `/dev-flow` standardizes small feature implementation.
+
+Both automations are checked into `week4/.claude/commands/` and are designed to be reused by Claude Code during future Week 4 development.
