@@ -6,7 +6,6 @@ from mcp.server.stdio import stdio_server
 
 from week3.server.tools import get_current_weather, get_weather_forecast
 
-# Initialize the server
 server = Server("weather-mcp-server")
 
 @server.list_tools()
@@ -37,20 +36,16 @@ async def list_tools():
         )
     ]
 
-# Ensure the decorator matches exactly
 @server.call_tool()
 async def call_tool(name: str, arguments: dict):
     """Handle tool execution requests."""
-    # The name here must match the tool name you defined in list_tools
     if name == "get_current_weather":
-        # Since tools.py is synchronous, we call it normally
         result = get_current_weather(arguments["city"])
     elif name == "get_weather_forecast":
         result = get_weather_forecast(arguments["city"])
     else:
         raise ValueError(f"Unknown tool: {name}")
 
-    # CRITICAL: You must return a list of TextContent objects
     return [
         TextContent(
             type="text",

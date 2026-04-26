@@ -137,23 +137,13 @@ Both automations are checked into `week4/.claude/commands/` and are designed to 
 
 ## Personal Learnings & Takeaways
 
-Week 4 focused on improving development workflows through automation. This changed my perspective from just writing code to thinking about how to make development faster and more efficient.
+Week 4 focused on turning repeated development steps into documented Claude Code commands. The two files in `week4/.claude/commands/` capture the exact test command, expected output format, and feature workflow boundaries for this app.
 
-I learned that reusable commands and structured workflows can reduce repetitive work and improve consistency. Automation can make a big difference in productivity.
-
-This week helped me think more about process and efficiency, not just implementation.
-
-## Personal Learnings & Takeaways
-
-Week 4 focused on **developer workflow automation**. A workflow is a predefined sequence of steps used to perform a task, such as running tests or debugging.
+The `/run-tests` command is useful because it removes ambiguity about where tests should run and how failures should be summarized. The `/dev-flow` command is useful because it keeps small feature work scoped to a test, an implementation step, and verification.
 
 I learned how to create reusable command sequences that:
 - standardize repetitive tasks
 - reduce manual errors
 - improve consistency across development
 
-This connects to the idea of **developer experience (DX)**, which measures how easy it is to build and maintain software.
-
-By encoding workflows into commands, both humans and AI agents can execute tasks more reliably.
-
-The key takeaway was that improving process efficiency can have a large impact on productivity over time.
+The main takeaway was that process artifacts are most useful when they are specific to the repository: paths, commands, safety notes, and expected reports matter more than general workflow advice.

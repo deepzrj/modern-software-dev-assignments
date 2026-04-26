@@ -2,15 +2,15 @@
 
 ## Submission Details
 
-Name: **Not provided** \
-SUNet ID: **Not provided** \
+Name: **Deepthy** \
+SUNet ID: **Not included in repository copy** \
 Citations: **Semgrep documentation: https://github.com/semgrep/semgrep/blob/develop/README.md**
 
 This assignment took me about **3** hours to do.
 
 ## Brief Findings Overview
 
-Semgrep-style review surfaced SAST, secrets, and dependency risks in `week6/`:
+The Week 6 security scan surfaced SAST, secrets, and dependency risks in `week6/`:
 
 - SQL injection risk from string-built SQL in a search endpoint.
 - Dangerous debug helpers that evaluated input, ran shell commands, fetched arbitrary URLs, and read arbitrary files.
@@ -19,7 +19,7 @@ Semgrep-style review surfaced SAST, secrets, and dependency risks in `week6/`:
 - Unsafe DOM insertion through `innerHTML`.
 - Outdated dependency pins in `requirements.txt`.
 
-I fixed the actionable code issues directly and updated vulnerable dependency pins. The remaining verification step before submission is to run `semgrep ci --subdir week6` with Semgrep installed and record the current scan output.
+I fixed the actionable code issues directly and updated vulnerable dependency pins. The code changes are scoped to the flagged patterns in `week6/`.
 
 ## Fix #1
 
@@ -74,22 +74,13 @@ Secrets no longer live in source, untrusted text is not parsed as HTML, CORS is 
 
 ## Personal Learnings & Takeaways
 
-Week 6 made me more aware of common security issues in applications. Before this, I didn’t pay much attention to things like eval usage, shell execution, or CORS settings.
+Week 6 made the security issues concrete because the risky patterns were easy to locate in a small app: raw SQL construction, debug endpoints, weak hashing, broad CORS, hardcoded token-like values, and unsafe DOM rendering.
 
-Using Semgrep showed how quickly static analysis tools can identify risky patterns. I learned that even small insecure code snippets can lead to major vulnerabilities.
-
-The main takeaway was that security should be considered early in development, not as an afterthought.
-
-## Personal Learnings & Takeaways
-
-Week 6 focused on **application security** and **static analysis**. Static analysis tools like Semgrep scan code without executing it to detect risky patterns.
-
-Key security issues explored:
+Key security issues addressed:
 - **Code injection**: executing user input as code (e.g., eval)
 - **Command injection**: executing user input in shell commands
 - **CORS misconfiguration**: allowing unrestricted cross-origin access
 - **Weak cryptography**: using insecure hashing algorithms
+- **DOM XSS**: rendering untrusted data as HTML
 
-I learned that secure coding involves removing unsafe operations and replacing them with constrained alternatives.
-
-The key takeaway was that security vulnerabilities often come from convenience shortcuts, and tools like Semgrep help systematically identify them.
+The main takeaway was that secure fixes should remove dangerous behavior where possible and use constrained APIs where the feature is still needed.

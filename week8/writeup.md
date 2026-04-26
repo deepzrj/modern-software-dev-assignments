@@ -6,7 +6,7 @@ Tip: To preview this markdown file
 ## Submission Details
 
 Name: Deepthy
-SUNet ID: Not applicable
+SUNet ID: Not included in repository copy
 Citations: **Bolt documentation: https://support.bolt.new/building/intro-bolt**
 
 This assignment took me about **4** hours to do. 
@@ -80,26 +80,16 @@ c. Approximate time-to-first-run and time-to-feature metrics: About 10 minutes t
 
 ## Personal Learnings & Takeaways
 
-Week 8 gave me experience working with the same application across different stacks—React, Flask, and Node. This helped me see how similar concepts like CRUD operations are implemented in different environments.
+Week 8 gave me a direct comparison between three implementations of the same task board: React/Vite with `localStorage`, Flask/Jinja with JSON-file persistence, and a dependency-light Node HTTP server with a vanilla JavaScript frontend.
 
-I learned that while the tools and syntax change, the core logic remains the same. It also highlighted trade-offs between simplicity and flexibility, such as using localStorage versus backend persistence.
-
-Overall, this week helped me understand how transferable development concepts are across different technologies.
-
-## Personal Learnings & Takeaways
-
-Week 8 involved implementing the same application across multiple stacks: React, Flask, and Node.
-
-I observed that core concepts remain consistent:
+The core requirements stayed consistent:
 - CRUD operations (Create, Read, Update, Delete)
 - Data validation
 - State management
 
-However, implementation differs:
+The implementation details differed:
 - React uses **client-side state and localStorage**
 - Flask uses **server-rendered templates and backend logic**
 - Node uses **API-driven architecture with HTTP endpoints**
 
-This demonstrated the concept of **abstraction**, where the same functionality is expressed through different technologies.
-
-The key takeaway was that understanding fundamental concepts is more important than mastering any single framework.
+The main takeaway was that a clear resource model and validation rules make it easier to rebuild the same app across different stacks.

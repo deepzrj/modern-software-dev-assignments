@@ -30,9 +30,6 @@ def _is_action_line(line: str) -> bool:
     return False
 
 
-# ----------------------------
-# RULE-BASED EXTRACTION (RESTORED)
-# ----------------------------
 def extract_action_items(text: str) -> List[str]:
     lines = text.splitlines()
     extracted: List[str] = []
@@ -71,9 +68,6 @@ def extract_action_items(text: str) -> List[str]:
     return unique
 
 
-# ----------------------------
-# LLM-BASED EXTRACTION
-# ----------------------------
 def extract_action_items_llm(text: str) -> List[str]:
     """
     Use LLM to intelligently extract action items.
@@ -100,7 +94,6 @@ def extract_action_items_llm(text: str) -> List[str]:
     try:
         content = response.message.content.strip()
 
-        # Fix markdown code block issue properly
         if content.startswith("```"):
             parts = content.split("```")
             if len(parts) >= 2:
@@ -109,7 +102,6 @@ def extract_action_items_llm(text: str) -> List[str]:
         return json.loads(content)
 
     except (json.JSONDecodeError, AttributeError):
-        # fallback to rule-based extraction
         return extract_action_items(text)
 
 

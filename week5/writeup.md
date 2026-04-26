@@ -106,21 +106,13 @@ PYTHONPATH=. pytest -q backend/tests
 
 ## Personal Learnings & Takeaways
 
-Week 5 was where I started using AI tools like Codex more actively to implement features. I realized that the quality of the output depends heavily on how clearly I describe the task.
+Week 5 gave me more practice splitting feature work across backend, frontend, and verification responsibilities. Pagination and filtering required the API response shape to be written down first so the frontend controls could match the backend behavior.
 
-I also learned that reviewing AI-generated code is essential. Even when the code works, I still need to verify logic and ensure it matches requirements.
-
-This week helped me understand how to balance speed and correctness when using AI-assisted development.
-
-## Personal Learnings & Takeaways
-
-Week 5 involved implementing application features using AI-assisted development. I worked on concepts like:
+I worked on these concepts:
 - **Pagination**: splitting large datasets into smaller pages using parameters like page and page_size
 - **Filtering**: selecting subsets of data based on conditions
 - **Bulk operations**: applying actions to multiple items at once
 
-I learned that clear specifications are critical when using AI tools. The more precise the requirements (input, output, constraints), the better the generated code.
+The multi-agent playbook helped identify a practical risk: shared files such as schemas need one owner, or concurrent agents can make incompatible assumptions. The verification role is also important because passing backend tests does not automatically prove the frontend is using the same contract.
 
-I also practiced reviewing diffs, which means examining code changes line-by-line to ensure correctness.
-
-The key takeaway was that AI can accelerate development, but the developer must still verify logic and maintain control over the system.
+The main takeaway was that agentic workflows need clear file ownership, endpoint contracts, and a final verification pass.
