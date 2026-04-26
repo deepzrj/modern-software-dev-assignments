@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node Task Board</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="header">
+        <div>
+          <p>Week 8 / Node version</p>
+          <h1>Task Board</h1>
+        </div>
+        <strong id="count">0 tasks</strong>
+      </section>
+
+      <section class="workspace">
+        <form id="taskForm" class="panel">
+          <h2 id="formTitle">New task</h2>
+          <p id="error" class="error" hidden></p>
+          <input type="hidden" id="taskId" />
+          <label>
+            Title
+            <input id="title" name="title" />
+          </label>
+          <label>
+            Description
+            <textarea id="description" name="description" rows="4"></textarea>
+          </label>
+          <div class="row">
+            <label>
+              Status
+              <select id="status" name="status">
+                <option value="todo">Todo</option>
+                <option value="doing">Doing</option>
+                <option value="done">Done</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select id="priority" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button id="submitButton" type="submit">Create task</button>
+            <button id="cancelButton" class="secondary" type="button" hidden>Cancel</button>
+          </div>
+        </form>
+
+        <section id="tasks" class="tasks" aria-label="Tasks"></section>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
