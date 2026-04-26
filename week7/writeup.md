@@ -1,13 +1,16 @@
 ## PR / Review Notes
 
-This assignment was completed locally without using Graphite or external PR workflows.
+While I did not use Graphite directly, I followed an equivalent workflow locally by breaking the work into logical changes and reviewing them incrementally.
 
-Instead, I followed a similar review process by:
-- reviewing diffs after each change
-- running tests after modifications
-- verifying correctness through iterative updates
+I structured the work into multiple logical steps:
+- updating backend models and schemas
+- improving extraction logic
+- adding and validating API routes
+- writing and running tests
 
-This approximates the intended review workflow in a local development setup.
+Each step was reviewed using git diff and test execution before proceeding.
+
+This approximates the intent of Graphite Diamond reviews, where changes are made in small, reviewable increments rather than large commits.
 
 ## Personal Learnings & Takeaways
 
