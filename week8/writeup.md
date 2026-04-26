@@ -3,14 +3,10 @@ Tip: To preview this markdown file
 - On Mac, press `Command (⌘) + Shift + V`
 - On Windows/Linux, press `Ctrl + Shift + V`
 
-## Instructions
-
-Fill out all of the `TODO`s in this file.
-
 ## Submission Details
 
-Name: **Not provided** \
-SUNet ID: **Not provided** \
+Name: Deepthy
+SUNet ID: Not applicable
 Citations: **Bolt documentation: https://support.bolt.new/building/intro-bolt**
 
 This assignment took me about **4** hours to do. 
