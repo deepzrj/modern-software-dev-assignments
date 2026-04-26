@@ -14,8 +14,6 @@ the function is_valid_password(password: str) -> bool. No prose or comments.
 Keep the implementation minimal.
 """
 
-# TODO: Fill this in!
-
 YOUR_REFLEXION_PROMPT = """
 You are a senior Python developer. Your previous code failed specific test cases.
 Analyze the failures and rewrite the function to satisfy ALL of these requirements:

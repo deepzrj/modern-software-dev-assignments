@@ -8,8 +8,6 @@ load_dotenv()
 
 NUM_RUNS_TIMES = 5
 
-# TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-
 YOUR_SYSTEM_PROMPT = """
 You are a logical math assistant. Solve word problems by creating a timeline of events.
 

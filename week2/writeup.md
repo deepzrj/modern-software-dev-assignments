@@ -83,3 +83,25 @@ Generated/Modified Code:
 
 What changed:
 The Week 2 folder now includes a standalone README so the project can be run and evaluated without reading the assignment file first.
+
+## Personal Learnings & Takeaways
+
+Week 2 helped me connect LLM capabilities with a real backend system. Instead of just generating text, I was using the model to extract structured information and integrate it into an API.
+
+I learned that LLM outputs are not always reliable, so testing and validation are important. I also got a better understanding of how frontend and backend components interact through API endpoints.
+
+This week showed me how AI can be used as part of a complete system rather than as a standalone tool.
+
+## Personal Learnings & Takeaways
+
+Week 2 introduced the integration of LLMs into backend systems. The key concept here was **structured extraction**, where unstructured text is converted into structured data (e.g., JSON objects).
+
+I worked with two approaches:
+- **Rule-based extraction**: deterministic logic using string matching or patterns.
+- **LLM-based extraction**: flexible extraction using natural language understanding.
+
+The trade-off became clear: rule-based systems are predictable but brittle, while LLM-based systems are flexible but require validation.
+
+I also learned about **API design**, where endpoints define contracts between frontend and backend. Each endpoint must clearly define inputs, outputs, and error handling.
+
+The main takeaway was that LLM outputs must be treated as untrusted input and validated before being used in a system.

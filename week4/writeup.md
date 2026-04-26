@@ -134,3 +134,26 @@ The two command files make the Week 4 developer workflow more repeatable:
 - `/dev-flow` standardizes small feature implementation.
 
 Both automations are checked into `week4/.claude/commands/` and are designed to be reused by Claude Code during future Week 4 development.
+
+## Personal Learnings & Takeaways
+
+Week 4 focused on improving development workflows through automation. This changed my perspective from just writing code to thinking about how to make development faster and more efficient.
+
+I learned that reusable commands and structured workflows can reduce repetitive work and improve consistency. Automation can make a big difference in productivity.
+
+This week helped me think more about process and efficiency, not just implementation.
+
+## Personal Learnings & Takeaways
+
+Week 4 focused on **developer workflow automation**. A workflow is a predefined sequence of steps used to perform a task, such as running tests or debugging.
+
+I learned how to create reusable command sequences that:
+- standardize repetitive tasks
+- reduce manual errors
+- improve consistency across development
+
+This connects to the idea of **developer experience (DX)**, which measures how easy it is to build and maintain software.
+
+By encoding workflows into commands, both humans and AI agents can execute tasks more reliably.
+
+The key takeaway was that improving process efficiency can have a large impact on productivity over time.

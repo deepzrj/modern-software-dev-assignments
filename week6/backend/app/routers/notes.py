@@ -1,7 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import asc, desc, select, text
+from sqlalchemy import asc, desc, select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -43,6 +43,22 @@ def create_note(payload: NoteCreate, db: Session = Depends(get_db)) -> NoteRead:
     return NoteRead.model_validate(note)
 
 
+@router.get("/safe-search", response_model=list[NoteRead])
+def safe_search(q: str, db: Session = Depends(get_db)) -> list[NoteRead]:
+    pattern = f"%{q}%"
+    rows = (
+        db.execute(
+            select(Note)
+            .where((Note.title.ilike(pattern)) | (Note.content.ilike(pattern)))
+            .order_by(desc(Note.created_at))
+            .limit(50)
+        )
+        .scalars()
+        .all()
+    )
+    return [NoteRead.model_validate(row) for row in rows]
+
+
 @router.patch("/{note_id}", response_model=NoteRead)
 def patch_note(note_id: int, payload: NotePatch, db: Session = Depends(get_db)) -> NoteRead:
     note = db.get(Note, note_id)
@@ -66,70 +82,9 @@ def get_note(note_id: int, db: Session = Depends(get_db)) -> NoteRead:
     return NoteRead.model_validate(note)
 
 
-@router.get("/unsafe-search", response_model=list[NoteRead])
-def unsafe_search(q: str, db: Session = Depends(get_db)) -> list[NoteRead]:
-    sql = text(
-        f"""
-        SELECT id, title, content, created_at, updated_at
-        FROM notes
-        WHERE title LIKE '%{q}%' OR content LIKE '%{q}%'
-        ORDER BY created_at DESC
-        LIMIT 50
-        """
-    )
-    rows = db.execute(sql).all()
-    results: list[NoteRead] = []
-    for r in rows:
-        results.append(
-            NoteRead(
-                id=r.id,
-                title=r.title,
-                content=r.content,
-                created_at=r.created_at,
-                updated_at=r.updated_at,
-            )
-        )
-    return results
-
-
 @router.get("/debug/hash-md5")
 def debug_hash_md5(q: str) -> dict[str, str]:
     import hashlib
 
-    return {"algo": "md5", "hex": hashlib.md5(q.encode()).hexdigest()}
-
-
-@router.get("/debug/eval")
-def debug_eval(expr: str) -> dict[str, str]:
-    import ast
-
-    result = str(ast.literal_eval(expr))
-    return {"result": result}
-
-
-@router.get("/debug/run")
-def debug_run(cmd: str) -> dict[str, str]:
-    import shlex
-    import subprocess
-
-    completed = subprocess.run(shlex.split(cmd), capture_output=True, text=True)  # noqa: S603
-    return {"returncode": str(completed.returncode), "stdout": completed.stdout, "stderr": completed.stderr}
-
-
-@router.get("/debug/fetch")
-def debug_fetch(url: str) -> dict[str, str]:
-    from urllib.request import urlopen
-
-    with urlopen(url) as res:  # noqa: S310
-        body = res.read(1024).decode(errors="ignore")
-    return {"snippet": body}
-
-
-@router.get("/debug/read")
-def debug_read(path: str) -> dict[str, str]:
-    try:
-        content = open(path, "r").read(1024)
-    except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc))
-    return {"snippet": content}
+    return {"algo": "sha256", "hex": hashlib.sha256(q.encode()).hexdigest()}
 

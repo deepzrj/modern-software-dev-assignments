@@ -69,8 +69,6 @@ TOOL_REGISTRY: Dict[str, Callable[..., str]] = {
 # Prompt scaffolding
 # ==========================
 
-# TODO: Fill this in!
-
 YOUR_SYSTEM_PROMPT = """
 You are a tool-calling assistant.
 

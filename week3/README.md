@@ -96,7 +96,7 @@ Example output:
 
 ### `get_weather_forecast`
 
-Intended to get forecast data for a city.
+Gets the next five forecast entries for a city from OpenWeather.
 
 Input:
 
@@ -106,7 +106,21 @@ Input:
 }
 ```
 
-Current implementation note: `week3/server/main.py` registers this tool, but `week3/server/tools.py` still contains stubbed forecast logic. Complete the function by calling OpenWeather's `/forecast` endpoint before relying on this tool for grading or demos.
+Example output:
+
+```json
+{
+  "city": "London",
+  "forecast": [
+    {
+      "time": "2026-04-26 12:00:00",
+      "temperature": "13.2C",
+      "condition": "cloudy",
+      "humidity": "76%"
+    }
+  ]
+}
+```
 
 ## Example Client Requests
 
@@ -122,7 +136,7 @@ Give me the weather forecast for San Francisco.
 
 ## Error Handling
 
-The current weather tool handles the main API failure modes:
+The weather tools handle the main API failure modes:
 
 - Missing `OPENWEATHER_API_KEY` returns a configuration error.
 - HTTP `429` returns a rate-limit message.
@@ -135,3 +149,28 @@ The current weather tool handles the main API failure modes:
 - `server/main.py`: MCP server entrypoint, tool registration, and STDIO transport.
 - `server/tools.py`: OpenWeather API wrapper functions and error handling.
 - `server/config.py`: `.env` loading and API configuration.
+
+## Personal Learnings & Takeaways
+
+Week 3 introduced me to integrating external APIs and building MCP tools. This helped me understand how AI systems can extend beyond text generation and interact with real-world data.
+
+I learned the importance of handling inputs carefully and managing errors when working with external services. Even simple tools require thoughtful design.
+
+Overall, this week gave me a clearer picture of how AI can connect with real-world applications.
+
+## Personal Learnings & Takeaways
+
+Week 3 focused on **tool use and external API integration**. An MCP (Model Context Protocol) tool allows an LLM to call external functions to retrieve or compute information.
+
+This introduces a separation of responsibilities:
+- The **model** decides what action to take
+- The **tool** executes that action deterministically
+
+I also learned about **API interaction patterns**, including:
+- handling missing or invalid inputs
+- dealing with network failures
+- validating responses before returning them
+
+This week highlighted the concept of **hybrid systems**, where LLM reasoning is combined with traditional software logic.
+
+The key takeaway was that LLMs are most useful when combined with reliable external tools.

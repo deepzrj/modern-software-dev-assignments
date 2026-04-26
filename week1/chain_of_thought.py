@@ -7,7 +7,6 @@ load_dotenv()
 
 NUM_RUNS_TIMES = 5
 
-# TODO: Fill this in!
 YOUR_SYSTEM_PROMPT = ""
 YOUR_SYSTEM_PROMPT = """
 You are a mathematical assistant specializing in number theory. 

@@ -36,8 +36,6 @@ QUESTION = (
 )
 
 
-# TODO: Fill this in!
-
 YOUR_SYSTEM_PROMPT = """
 You are a specialized Python developer. Your task is to write code based ONLY on the provided API documentation.
 

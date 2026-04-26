@@ -41,6 +41,45 @@ def get_current_weather(city: str) -> dict:
         return {"error": str(e)}
 
 def get_weather_forecast(city: str) -> dict:
-    # ... logic remains similar, ensure you return a clean list/dict
-    # and use logger.info instead of print.
-    ...
+    if not OPENWEATHER_API_KEY:
+        logger.error("Missing OpenWeather API Key")
+        return {"error": "API key not configured on server"}
+
+    url = f"{BASE_URL}/forecast"
+    params = {"q": city, "appid": OPENWEATHER_API_KEY, "units": "metric", "cnt": 5}
+
+    try:
+        logger.info(f"Fetching weather forecast for {city}")
+        response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code == 429:
+            return {"error": "Rate limit exceeded. Please try again in a minute."}
+
+        if response.status_code != 200:
+            return {"error": f"OpenWeather API error: {response.status_code}"}
+
+        data = response.json()
+        forecast = []
+        for entry in data.get("list", []):
+            forecast.append(
+                {
+                    "time": entry.get("dt_txt"),
+                    "temperature": f"{entry['main']['temp']}°C",
+                    "condition": entry["weather"][0]["description"],
+                    "humidity": f"{entry['main']['humidity']}%",
+                }
+            )
+
+        if not forecast:
+            return {"error": "No forecast data returned for this city"}
+
+        return {
+            "city": data.get("city", {}).get("name", city),
+            "forecast": forecast,
+        }
+
+    except requests.exceptions.Timeout:
+        return {"error": "The weather service timed out."}
+    except Exception as e:
+        logger.exception("Unexpected error in get_weather_forecast")
+        return {"error": str(e)}

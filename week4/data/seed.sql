@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS action_items (
 );
 
 INSERT INTO notes (title, content) VALUES
-  ('Welcome', 'This is a starter note. TODO: explore the app!'),
+  ('Welcome', 'This is a starter note. Explore the app!'),
   ('Demo', 'Click around and add a note. Ship feature!');
 
 INSERT INTO action_items (description, completed) VALUES

@@ -77,3 +77,29 @@ b. Prompting (e.g. what required additional guidance; what worked poorly/wel): T
 
 c. Approximate time-to-first-run and time-to-feature metrics: About 10 minutes to first run and 40 minutes to complete the API, frontend integration, persistence, styling, and README notes.
 ```
+
+## Personal Learnings & Takeaways
+
+Week 8 gave me experience working with the same application across different stacks—React, Flask, and Node. This helped me see how similar concepts like CRUD operations are implemented in different environments.
+
+I learned that while the tools and syntax change, the core logic remains the same. It also highlighted trade-offs between simplicity and flexibility, such as using localStorage versus backend persistence.
+
+Overall, this week helped me understand how transferable development concepts are across different technologies.
+
+## Personal Learnings & Takeaways
+
+Week 8 involved implementing the same application across multiple stacks: React, Flask, and Node.
+
+I observed that core concepts remain consistent:
+- CRUD operations (Create, Read, Update, Delete)
+- Data validation
+- State management
+
+However, implementation differs:
+- React uses **client-side state and localStorage**
+- Flask uses **server-rendered templates and backend logic**
+- Node uses **API-driven architecture with HTTP endpoints**
+
+This demonstrated the concept of **abstraction**, where the same functionality is expressed through different technologies.
+
+The key takeaway was that understanding fundamental concepts is more important than mastering any single framework.

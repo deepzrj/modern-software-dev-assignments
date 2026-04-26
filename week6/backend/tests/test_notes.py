@@ -16,6 +16,11 @@ def test_create_list_and_patch_notes(client):
     items = r.json()
     assert len(items) >= 1
 
+    r = client.get("/notes/safe-search", params={"q": "Hello"})
+    assert r.status_code == 200
+    items = r.json()
+    assert len(items) >= 1
+
     note_id = data["id"]
     r = client.patch(f"/notes/{note_id}", json={"title": "Updated"})
     assert r.status_code == 200

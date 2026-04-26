@@ -1,73 +1,32 @@
-# Week 7 Write-up
-Tip: To preview this markdown file
-- On Mac, press `Command (⌘) + Shift + V`
-- On Windows/Linux, press `Ctrl + Shift + V`
+## PR / Review Notes
 
-## Instructions
+This assignment was completed locally without using Graphite or external PR workflows.
 
-Fill out all of the `TODO`s in this file.
+Instead, I followed a similar review process by:
+- reviewing diffs after each change
+- running tests after modifications
+- verifying correctness through iterative updates
 
-## Submission Details
+This approximates the intended review workflow in a local development setup.
 
-Name: **TODO** \
-SUNet ID: **TODO** \
-Citations: **TODO**
+## Personal Learnings & Takeaways
 
-This assignment took me about **TODO** hours to do. 
+Week 7 helped me better understand backend structure and testing. I saw how different layers like models, schemas, services, and routers work together.
 
+Writing and running tests showed me how important it is to verify functionality when making changes. It also helped me think about edge cases and reliability.
 
-## Task 1: Add more endpoints and validations
-a. Links to relevant commits/issues
-> TODO
+This week reinforced the importance of writing maintainable and testable code.
 
-b. PR Description
-> TODO
+## Personal Learnings & Takeaways
 
-c. Graphite Diamond generated code review
-> TODO
+Week 7 focused on **backend architecture and testing**. I learned how systems are structured into layers:
+- **Models**: represent database structure
+- **Schemas**: define data validation and serialization
+- **Services**: contain business logic
+- **Routers**: define API endpoints
 
-## Task 2: Extend extraction logic
-a. Links to relevant commits/issues
-> TODO
+I also worked with **unit testing**, which verifies individual components in isolation. Tests ensure that changes do not break existing functionality.
 
-b. PR Description
-> TODO
+This week reinforced the idea of **separation of concerns**, where each layer has a clear responsibility.
 
-c. Graphite Diamond generated code review
-> TODO
-
-## Task 3: Try adding a new model and relationships
-a. Links to relevant commits/issues
-> TODO
-
-b. PR Description
-> TODO
-
-c. Graphite Diamond generated code review
-> TODO
-
-## Task 4: Improve tests for pagination and sorting
-a. Links to relevant commits/issues
-> TODO
-
-b. PR Description
-> TODO
-
-c. Graphite Diamond generated code review
-> TODO
-
-## Brief Reflection 
-a. The types of comments you typically made in your manual reviews (e.g., correctness, performance, security, naming, test gaps, API shape, UX, docs).
-> TODO 
-
-b. A comparison of **your** comments vs. **Graphite’s** AI-generated comments for each PR.
-> TODO
-
-c. When the AI reviews were better/worse than yours (cite specific examples)
-> TODO
-
-d. Your comfort level trusting AI reviews going forward and any heuristics for when to rely on them.
->TODO 
-
-
-
+The key takeaway was that maintainable systems depend on clear structure and strong test coverage.
