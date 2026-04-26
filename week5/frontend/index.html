@@ -18,6 +18,11 @@
           <button type="submit">Add</button>
         </form>
         <ul id="notes"></ul>
+        <div>
+          <button id="notes-prev" type="button">Prev</button>
+          <span id="notes-page"></span>
+          <button id="notes-next" type="button">Next</button>
+        </div>
       </section>
 
       <section>
@@ -26,7 +31,20 @@
           <input id="action-desc" placeholder="Description" required />
           <button type="submit">Add</button>
         </form>
+        <div>
+          <select id="action-filter">
+            <option value="">All</option>
+            <option value="false">Open</option>
+            <option value="true">Done</option>
+          </select>
+          <button id="actions-bulk-complete" type="button">Complete selected</button>
+        </div>
         <ul id="actions"></ul>
+        <div>
+          <button id="actions-prev" type="button">Prev</button>
+          <span id="actions-page"></span>
+          <button id="actions-next" type="button">Next</button>
+        </div>
       </section>
     </main>
 
