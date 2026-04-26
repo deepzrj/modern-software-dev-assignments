@@ -34,4 +34,3 @@ async def root() -> FileResponse:
 app.include_router(notes_router.router)
 app.include_router(action_items_router.router)
 
-

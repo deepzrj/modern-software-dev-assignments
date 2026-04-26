@@ -55,4 +55,3 @@ def apply_seed_if_needed() -> None:
                 for statement in [s.strip() for s in sql.split(";") if s.strip()]:
                     conn.execute(text(statement))
 
-

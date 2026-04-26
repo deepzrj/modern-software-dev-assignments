@@ -22,3 +22,50 @@ def test_create_complete_list_and_patch_action_item(client):
     assert patched["description"] == "Updated"
 
 
+def test_action_item_validation_comments_get_and_delete(client):
+    r = client.post("/action-items/", json={"description": "   "})
+    assert r.status_code == 422
+
+    r = client.post("/action-items/", json={"description": "Review launch checklist"})
+    assert r.status_code == 201
+    item_id = r.json()["id"]
+
+    r = client.get(f"/action-items/{item_id}")
+    assert r.status_code == 200
+    assert r.json()["description"] == "Review launch checklist"
+
+    r = client.post(f"/action-items/{item_id}/comments", json={"body": "Needs owner"})
+    assert r.status_code == 201
+    comment = r.json()
+    assert comment["action_item_id"] == item_id
+    assert comment["body"] == "Needs owner"
+
+    r = client.get(f"/action-items/{item_id}/comments")
+    assert r.status_code == 200
+    assert [comment["body"] for comment in r.json()] == ["Needs owner"]
+
+    r = client.delete(f"/action-items/{item_id}")
+    assert r.status_code == 204
+
+    r = client.get(f"/action-items/{item_id}")
+    assert r.status_code == 404
+
+
+def test_action_items_pagination_sorting_and_invalid_sort(client):
+    for description in ["Bravo task", "Alpha task", "Charlie task"]:
+        r = client.post("/action-items/", json={"description": description})
+        assert r.status_code == 201
+
+    r = client.get("/action-items/", params={"sort": "description", "skip": 1, "limit": 1})
+    assert r.status_code == 200
+    assert [item["description"] for item in r.json()] == ["Bravo task"]
+
+    r = client.get("/action-items/", params={"sort": "-description", "limit": 2})
+    assert r.status_code == 200
+    assert [item["description"] for item in r.json()] == ["Charlie task", "Bravo task"]
+
+    r = client.get("/action-items/", params={"limit": 0})
+    assert r.status_code == 422
+
+    r = client.get("/action-items/", params={"sort": "unknown"})
+    assert r.status_code == 400
