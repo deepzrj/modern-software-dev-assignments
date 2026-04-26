@@ -15,8 +15,20 @@ Keep the implementation minimal.
 """
 
 # TODO: Fill this in!
-YOUR_REFLEXION_PROMPT = ""
 
+YOUR_REFLEXION_PROMPT = """
+You are a senior Python developer. Your previous code failed specific test cases.
+Analyze the failures and rewrite the function to satisfy ALL of these requirements:
+1. Length >= 8 characters.
+2. At least one lowercase letter.
+3. At least one uppercase letter.
+4. At least one digit.
+5. At least one special character from the set: !@#$%^&*()-_
+
+Rules:
+- Output ONLY a single fenced Python code block.
+- No explanations or prose.
+"""
 
 # Ground-truth test suite used to evaluate generated code
 SPECIALS = set("!@#$%^&*()-_")
@@ -92,11 +104,16 @@ def generate_initial_function(system_prompt: str) -> str:
 
 
 def your_build_reflexion_context(prev_code: str, failures: List[str]) -> str:
-    """TODO: Build the user message for the reflexion step using prev_code and failures.
-
-    Return a string that will be sent as the user content alongside the reflexion system prompt.
-    """
-    return ""
+    """Build the user message for the reflexion step."""
+    # Convert the list of failures into a readable bulleted list
+    failure_reports = "\n".join(f"- {f}" for f in failures)
+    
+    return (
+        f"The previous implementation failed some tests:\n\n"
+        f"```python\n{prev_code}\n```\n\n"
+        f"Specific failures observed:\n{failure_reports}\n\n"
+        f"Please provide a fixed version of the `is_valid_password` function."
+    )
 
 
 def apply_reflexion(

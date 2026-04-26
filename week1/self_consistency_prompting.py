@@ -9,7 +9,25 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-YOUR_SYSTEM_PROMPT = ""
+
+YOUR_SYSTEM_PROMPT = """
+You are a logical math assistant. Solve word problems by creating a timeline of events.
+
+Rules:
+1. Identify the total distance/value.
+2. Calculate the specific position of each milestone relative to the start.
+3. Perform the subtraction between milestones to find the interval.
+4. Show your work clearly.
+5. The very last line of your response must be "Answer: <number>".
+
+Example:
+Problem: A 100-mile race has a water station at mile 30 and another 20 miles before the finish. Distance between stations?
+- Total: 100 miles
+- Station 1: 30 miles
+- Station 2: 100 - 20 = 80 miles
+- Calculation: 80 - 30 = 50
+Answer: 50
+"""
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".
@@ -53,7 +71,7 @@ def test_your_prompt(system_prompt: str) -> bool:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": USER_PROMPT},
             ],
-            options={"temperature": 1},
+            options={"temperature": 0.7},
         )
         output_text = response.message.content
         final_answer = extract_final_answer(output_text)

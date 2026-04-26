@@ -7,16 +7,29 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = ""
 
+
+
+
+YOUR_SYSTEM_PROMPT = """
+You are an expert at character reversal.
+
+K-Shot Examples:
+Input: dog | Reversed: g o d | Result: god
+Input: comet | Reversed: t e m o c | Result: temoc
+Input: racing | Reversed: g n i c a r | Result: gnicar
+Input: httpsstatus | Reversed: s u t a t s s p t t h | Result: sutatssptth
+
+Rule: Output ONLY the string found after 'Result: '.
+"""
 USER_PROMPT = """
 Reverse the order of letters in the following word. Only output the reversed word, no other text:
 
-httpstatus
+httpsstatus
 """
 
 
-EXPECTED_OUTPUT = "sutatsptth"
+EXPECTED_OUTPUT = "sutatssptth"
 
 def test_your_prompt(system_prompt: str) -> bool:
     """Run the prompt up to NUM_RUNS_TIMES and return True if any output matches EXPECTED_OUTPUT.
@@ -26,7 +39,7 @@ def test_your_prompt(system_prompt: str) -> bool:
     for idx in range(NUM_RUNS_TIMES):
         print(f"Running test {idx + 1} of {NUM_RUNS_TIMES}")
         response = chat(
-            model="mistral-nemo:12b",
+            model="llama3.2:3b",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": USER_PROMPT},

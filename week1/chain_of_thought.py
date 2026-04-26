@@ -9,7 +9,24 @@ NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
 YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """
+You are a mathematical assistant specializing in number theory. 
+To solve modular exponentiation problems (a^b mod n):
+1. Check if gcd(a, n) = 1.
+2. Calculate Euler's totient function phi(n).
+3. Use Euler's Theorem to reduce the exponent: b mod phi(n).
+4. Compute the final small power modulo n.
 
+Example:
+Problem: What is 7^82 mod 100?
+Step 1: gcd(7, 100) is 1.
+Step 2: phi(100) = 40.
+Step 3: 82 mod 40 = 2.
+Step 4: 7^2 = 49.
+Answer: 49
+
+Now solve the user's problem using this exact step-by-step logic.
+"""
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".

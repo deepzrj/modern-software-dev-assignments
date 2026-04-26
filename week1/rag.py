@@ -37,8 +37,18 @@ QUESTION = (
 
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = ""
 
+YOUR_SYSTEM_PROMPT = """
+You are a specialized Python developer. Your task is to write code based ONLY on the provided API documentation.
+
+Strict Guidelines:
+1. Use the Base URL and endpoint exactly as documented in the context.
+2. Use the specific authentication headers (e.g., 'X-API-Key') as documented.
+3. Use the 'requests' library.
+4. Always call `response.raise_for_status()` to handle non-200 responses.
+5. Return only the specific field requested (the user's name).
+6. Output ONLY the Python code block. No explanations.
+"""
 
 # For this simple example
 # For this coding task, validate by required snippets rather than exact string
@@ -52,10 +62,10 @@ REQUIRED_SNIPPETS = [
 
 
 def YOUR_CONTEXT_PROVIDER(corpus: List[str]) -> List[str]:
-    """TODO: Select and return the relevant subset of documents from CORPUS for this task.
-
-    For example, return [] to simulate missing context, or [corpus[0]] to include the API docs.
-    """
+    """Select and return the API documentation from the corpus."""
+    # Since api_docs.txt is the first (and only) file in DATA_FILES:
+    if corpus and len(corpus) > 0:
+        return [corpus[0]]
     return []
 
 
