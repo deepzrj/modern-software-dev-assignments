@@ -4,7 +4,6 @@ import os
 import re
 from typing import List
 import json
-from typing import Any
 from ollama import chat
 from dotenv import load_dotenv
 
@@ -31,9 +30,13 @@ def _is_action_line(line: str) -> bool:
     return False
 
 
+# ----------------------------
+# RULE-BASED EXTRACTION (RESTORED)
+# ----------------------------
 def extract_action_items(text: str) -> List[str]:
     lines = text.splitlines()
     extracted: List[str] = []
+
     for raw_line in lines:
         line = raw_line.strip()
         if not line:
@@ -41,11 +44,11 @@ def extract_action_items(text: str) -> List[str]:
         if _is_action_line(line):
             cleaned = BULLET_PREFIX_PATTERN.sub("", line)
             cleaned = cleaned.strip()
-            # Trim common checkbox markers
             cleaned = cleaned.removeprefix("[ ]").strip()
             cleaned = cleaned.removeprefix("[todo]").strip()
             extracted.append(cleaned)
-    # Fallback: if nothing matched, heuristically split into sentences and pick imperative-like ones
+
+    # fallback if nothing matched
     if not extracted:
         sentences = re.split(r"(?<=[.!?])\s+", text.strip())
         for sentence in sentences:
@@ -54,7 +57,8 @@ def extract_action_items(text: str) -> List[str]:
                 continue
             if _looks_imperative(s):
                 extracted.append(s)
-    # Deduplicate while preserving order
+
+    # deduplicate
     seen: set[str] = set()
     unique: List[str] = []
     for item in extracted:
@@ -63,7 +67,50 @@ def extract_action_items(text: str) -> List[str]:
             continue
         seen.add(lowered)
         unique.append(item)
+
     return unique
+
+
+# ----------------------------
+# LLM-BASED EXTRACTION
+# ----------------------------
+def extract_action_items_llm(text: str) -> List[str]:
+    """
+    Use LLM to intelligently extract action items.
+    """
+
+    system_prompt = (
+        "You are an expert assistant that extracts action items from notes. "
+        "Return ONLY a valid JSON array of strings. "
+        "Each item must be a concise actionable task. "
+        "Do not include any explanation or extra text."
+    )
+
+    user_prompt = f"Extract action items from the following text:\n\n{text}"
+
+    response = chat(
+        model="llama3.2:3b",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        options={"temperature": 0.0},
+    )
+
+    try:
+        content = response.message.content.strip()
+
+        # Fix markdown code block issue properly
+        if content.startswith("```"):
+            parts = content.split("```")
+            if len(parts) >= 2:
+                content = parts[1].strip()
+
+        return json.loads(content)
+
+    except (json.JSONDecodeError, AttributeError):
+        # fallback to rule-based extraction
+        return extract_action_items(text)
 
 
 def _looks_imperative(sentence: str) -> bool:
@@ -71,7 +118,7 @@ def _looks_imperative(sentence: str) -> bool:
     if not words:
         return False
     first = words[0]
-    # Crude heuristic: treat these as imperative starters
+
     imperative_starters = {
         "add",
         "create",
@@ -86,4 +133,5 @@ def _looks_imperative(sentence: str) -> bool:
         "design",
         "investigate",
     }
+
     return first.lower() in imperative_starters
